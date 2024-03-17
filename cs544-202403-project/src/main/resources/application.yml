@@ -6,6 +6,7 @@ common:
   mvc:
     enabled: false
 server:
+  port: 8000
   ssl:
     enabled: false
   servlet:
@@ -18,10 +19,10 @@ spring:
   application:
     name: cs544-202403-project
   datasource:
-    url: jdbc:sqlserver://cs544.cs.miu.edu:1433;databaseName=CS544-202403-Project;trustServerCertificate=true
-    username: cs544-202403
-    password: cs544-202403
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:mysql://localhost:3306/trainingdb
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximumPoolSize: 10
   jpa:
@@ -33,7 +34,7 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServerDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         
 logging:
   level:
