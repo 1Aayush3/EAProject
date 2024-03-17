@@ -12,8 +12,10 @@ public class Scanner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ScannerID")
-    private Integer scannerID;
+    @Column(name = "ScannerCode")
+    private Integer scannerCode;
 
+    @OneToOne
+    Location location;
 
 }
