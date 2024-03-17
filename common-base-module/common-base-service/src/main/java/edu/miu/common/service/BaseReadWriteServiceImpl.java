@@ -27,7 +27,7 @@ public abstract class BaseReadWriteServiceImpl<R extends Serializable, T extends
 	private BaseMapper<R, T> requestMapper;
 	
 	@Override
-	public R create(R request) {
+	public R create(Event request) {
 		T entity = requestMapper.map(request);
 		return convert(baseRepository.save(entity));
 	}

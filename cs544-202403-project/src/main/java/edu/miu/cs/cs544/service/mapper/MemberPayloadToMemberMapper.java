@@ -14,3 +14,4 @@ public class MemberPayloadToMemberMapper extends BaseMapper<MemberPayload, Membe
 		super(mapperFactory, MemberPayload.class, Member.class);
 	}
 }
+

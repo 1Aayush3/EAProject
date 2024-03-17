@@ -14,7 +14,7 @@ package edu.miu.common.service;
  */
 public interface BaseReadWriteService<R, T, I> extends BaseReadService<R, T, I> {
 
-	R create(R request);
+	R create(Event request);
 
 	R update(I id, R request);
 	
