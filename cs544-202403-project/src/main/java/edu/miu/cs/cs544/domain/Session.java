@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,4 +23,6 @@ public class Session implements Serializable {
     @Column(name = "time")
     private LocalTime time;
 
+    @ManyToMany(mappedBy = "sessions")
+    List<Member> members;
 }

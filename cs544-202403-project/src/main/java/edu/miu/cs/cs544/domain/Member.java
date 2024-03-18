@@ -1,12 +1,9 @@
 package edu.miu.cs.cs544.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
@@ -33,4 +30,8 @@ public class Member implements Serializable {
 
 	@Column(name="barCode", nullable = false, unique = true)
 	private Integer barCode;
+
+	@ManyToMany
+	@JoinTable(name = "Attendance", joinColumns = @JoinColumn(name = "memberId"),inverseJoinColumns = @JoinColumn(name = "sessionId"))
+	List <Session> sessions;
 }
