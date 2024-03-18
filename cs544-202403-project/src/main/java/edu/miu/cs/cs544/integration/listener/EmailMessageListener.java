@@ -23,10 +23,10 @@ public class EmailMessageListener {
             mailMessage.setSubject(emailMessage.getSubject());
             mailMessage.setText(emailMessage.getBody());
             javaMailSender.send(mailMessage);
+
             System.out.println("Email sent successfully");
         } catch (MessageConversionException e) {
             System.out.println("Message conversion failed: " + e.getMessage());
-            // Optionally, you can handle the exception here
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
             e.printStackTrace(); // Print the stack trace for further debugging

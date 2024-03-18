@@ -13,14 +13,4 @@ import edu.miu.cs.cs544.service.contract.ScannerPayload;
 @RestController
 @RequestMapping("/scanners")
 public class ScannerController extends BaseReadWriteController<ScannerPayload, Scanner, Integer> {
-
-    @Autowired
-    EmailService emailService;
-
-    @GetMapping("/email")
-    public String emailMe(){
-        emailService.sendEmail("example.com", "HI", "Hello"  );
-        return "Pranjal";
-    }
-
 }
