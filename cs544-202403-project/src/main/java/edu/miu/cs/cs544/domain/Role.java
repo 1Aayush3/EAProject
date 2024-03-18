@@ -2,6 +2,9 @@ package edu.miu.cs.cs544.domain;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Role implements Serializable {
@@ -12,6 +15,9 @@ public class Role implements Serializable {
 
     @Column(name = "roleType")
     private String roleType;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<Member> members = new HashSet<>();
 
     public Integer getRoleId() {
         return roleId;
