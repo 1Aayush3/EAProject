@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544;
 
+import edu.miu.cs.cs544.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,9 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private MemberService service;
+
+	@Autowired
+	private RoleService roleService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -19,7 +23,9 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		service.findAll().forEach(System.out::println);
+//		service.findAll().forEach(System.out::println);
+		roleService.create("student");
+		roleService.create("faculty");
 	}
 
 }
