@@ -1,7 +1,9 @@
 package edu.miu.cs.cs544.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -34,4 +36,10 @@ public class Member implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "Attendance", joinColumns = @JoinColumn(name = "memberId"),inverseJoinColumns = @JoinColumn(name = "sessionId"))
 	List <Session> sessions;
+
+	@ManyToMany
+	@JoinTable(name = "member_roles",
+			joinColumns = @JoinColumn(name = "memberId"),
+			inverseJoinColumns = @JoinColumn(name = "roleId"))
+	private Set<Role> roles = new HashSet<>();
 }
