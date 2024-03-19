@@ -13,8 +13,9 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roleId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "roleType")
-    private String roleType;
+    private RoleType roleType;
 
     @ManyToMany(mappedBy = "roles")
     private Set<Member> members = new HashSet<>();
@@ -27,11 +28,11 @@ public class Role implements Serializable {
         this.roleId = roleId;
     }
 
-    public String getRoleType() {
+    public RoleType getRoleType() {
         return roleType;
     }
 
-    public void setRoleType(String roleType) {
+    public void setRoleType(RoleType roleType) {
         this.roleType = roleType;
     }
 }
