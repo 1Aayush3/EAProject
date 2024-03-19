@@ -18,7 +18,9 @@ public class Account implements Serializable {
     @Column(name = "Description")
     private String description;
 
-    @Column(name = "AccountType")
+    @Column(name = "AccountType", nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
+
+
 }
