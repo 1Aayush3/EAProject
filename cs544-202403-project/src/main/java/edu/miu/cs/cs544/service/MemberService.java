@@ -6,4 +6,8 @@ import edu.miu.cs.cs544.service.contract.MemberPayload;
 
 public interface MemberService extends BaseReadWriteService <MemberPayload, Member, Integer>{
     public void createMember(Member member);
+
+    public void updateMember(Integer memberId, Member member);
+
+    public void deleteMember(Integer memberId);
 }

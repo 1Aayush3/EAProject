@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import edu.miu.common.service.BaseReadWriteServiceImpl;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
 
+import java.util.*;
+
 @Service
 public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, Member, Integer> implements MemberService {
     @Autowired
@@ -29,9 +31,47 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
                     account.setMember(member);
                     account.setAccountType(accountType);
                     account.setBalance(1000.00);
+                    account.setStatus(true);
                     accountRepository.save(account);
                 }
             }
         }
+    }
+
+    @Transactional
+    public void updateMember(Integer memberId, Member member) {
+        memberRepository.save(member);
+        List<Account> existingAccounts = accountRepository.findByMember(member).orElse(new ArrayList<>());
+        Set<AccountType> accountTypeSet = new HashSet<>();
+        for (Role role : member.getRoles()) {
+            accountTypeSet.addAll(DefaultAccountConfig.value.get(role.getRoleType()));
+        }
+        for (Account account : existingAccounts) {
+            if (accountTypeSet.contains(account.getAccountType())) {
+                account.setStatus(true);
+                accountTypeSet.remove(account.getAccountType());
+            } else {
+                account.setStatus(false);
+            }
+            accountRepository.save(account);
+        }
+        for (AccountType accountType : accountTypeSet) {
+            Account account = new Account();
+            account.setMember(member);
+            account.setAccountType(accountType);
+            account.setBalance(1000.00);
+            account.setStatus(true);
+            accountRepository.save(account);
+        }
+    }
+
+    @Transactional
+    public void deleteMember(Integer memberId) {
+        Member member = memberRepository.findById(memberId).get();
+        List<Account> accounts = accountRepository.findByMemberId(memberId).orElse(new ArrayList<>());
+        for (Account account : accounts) {
+            accountRepository.delete(account);
+        }
+        memberRepository.delete(member);
     }
 }
