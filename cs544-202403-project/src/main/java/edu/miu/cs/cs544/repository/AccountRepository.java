@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface AccountRepository extends BaseRepository<Account, Integer> {
 
-    // AccountRepository.java
     @Query("SELECT m.sessions FROM Member m JOIN m.sessions s WHERE m.account.id = :accountId AND s.date BETWEEN :startDate AND :endDate")
     List<Session> findSessionsByAccountIdAndDateRange(@Param("accountId") Integer accountId,
                                                       @Param("startDate") LocalDate startDate,
