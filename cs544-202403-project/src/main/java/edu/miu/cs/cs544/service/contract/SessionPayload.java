@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class SessionPayload implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private Integer sessionId;
 
     private LocalDate date;
 

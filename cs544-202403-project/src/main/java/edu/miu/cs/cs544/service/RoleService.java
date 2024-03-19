@@ -1,6 +1,9 @@
 package edu.miu.cs.cs544.service;
 
-public interface RoleService {
+import edu.miu.common.service.BaseReadWriteService;
+import edu.miu.cs.cs544.domain.Role;
+import edu.miu.cs.cs544.service.contract.RolePayload;
 
-    void create (String type);
+public interface RoleService extends BaseReadWriteService<RolePayload, Role, Integer> {
+
 }

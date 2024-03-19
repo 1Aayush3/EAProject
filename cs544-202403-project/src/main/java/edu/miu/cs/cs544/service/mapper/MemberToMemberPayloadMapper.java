@@ -9,9 +9,8 @@ import ma.glasnost.orika.MapperFactory;
 
 @Component
 public class MemberToMemberPayloadMapper extends BaseMapper<Member, MemberPayload> {
-
-	public MemberToMemberPayloadMapper(MapperFactory mapperFactory) {
-		super(mapperFactory, Member.class, MemberPayload.class);
-	}
+    public MemberToMemberPayloadMapper(MapperFactory mapperFactory) {
+        super(mapperFactory, Member.class, MemberPayload.class);
+    }
 
 }

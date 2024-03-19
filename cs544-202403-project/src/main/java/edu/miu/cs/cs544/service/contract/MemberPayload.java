@@ -1,7 +1,9 @@
 package edu.miu.cs.cs544.service.contract;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import edu.miu.cs.cs544.domain.Role;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -16,5 +18,7 @@ public class MemberPayload implements Serializable {
 	private String lname;
 	private String email;
 	private Integer barCode;
+	private Set<Role> roleTypes;
+
 
 }

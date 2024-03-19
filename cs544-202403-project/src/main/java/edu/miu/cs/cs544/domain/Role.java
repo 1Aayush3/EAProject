@@ -1,8 +1,14 @@
 package edu.miu.cs.cs544.domain;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
+import lombok.Data;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+@Data
 @Entity
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,19 +19,9 @@ public class Role implements Serializable {
     @Column(name = "roleType")
     private String roleType;
 
-    public Integer getRoleId() {
-        return roleId;
-    }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "roleTypes")
+    List<Member> members = new ArrayList<Member>();
 
-    public String getRoleType() {
-        return roleType;
-    }
 
-    public void setRoleType(String roleType) {
-        this.roleType = roleType;
-    }
 }
