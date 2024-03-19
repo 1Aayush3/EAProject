@@ -6,25 +6,29 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Data
 @Entity
-public class Session implements Serializable {
+public class Attendance implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sessionId")
-    private Integer id;
+    @Column(name = "attendanceId")
+    private Integer attendanceId;
 
     @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
+    @Column(name = "time")
+    private LocalTime time;
 
-    @Column(name = "end_time")
-    private LocalTime endTime;
-    @OneToMany(mappedBy = "session")
-    private List<Attendance> attendanceList;
+    @ManyToOne
+    @JoinColumn(name = "memberId")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "sessionId")
+    private Session session;
 }
+
