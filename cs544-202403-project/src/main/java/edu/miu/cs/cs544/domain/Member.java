@@ -33,7 +33,8 @@ public class Member implements Serializable {
 	@Column(name="barCode", nullable = false, unique = true)
 	private Integer barCode;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
+
 	@JoinTable(name = "Attendance", joinColumns = @JoinColumn(name = "memberId"),inverseJoinColumns = @JoinColumn(name = "sessionId"))
 	List <Session> sessions;
 
