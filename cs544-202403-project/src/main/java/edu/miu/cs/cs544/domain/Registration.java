@@ -7,20 +7,20 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class Location implements Serializable {
+public class Registration implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Integer id;
 
-    @Column(name = "Name", nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "EventId", nullable = false)
+    private Event event;
 
-    @Column(name = "Description")
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "MemberId", nullable = false)
+    private Member member;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Type", nullable = false)
-    private LocationType type;
 }
