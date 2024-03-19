@@ -22,5 +22,10 @@ public class Account implements Serializable {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
+    @ManyToOne
+    @JoinColumn(name = "MemberId")
+    private Member member;
 
+    @Column(name = "Balance")
+    private Double balance;
 }
