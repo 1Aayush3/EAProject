@@ -2,6 +2,7 @@ package edu.miu.cs.cs544.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.io.Serializable;
 
 @Data
@@ -12,10 +13,8 @@ public class Scanner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ScannerCode")
     private Integer scannerCode;
 
     @OneToOne
     Location location;
-
 }
