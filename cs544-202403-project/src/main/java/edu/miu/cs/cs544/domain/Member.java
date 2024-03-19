@@ -34,12 +34,11 @@ public class Member implements Serializable {
 	private Integer barCode;
 
 	@ManyToMany
-	@JoinTable(name = "Attendance", joinColumns = @JoinColumn(name = "memberId"),inverseJoinColumns = @JoinColumn(name = "sessionId"))
-	List <Session> sessions;
-
-	@ManyToMany
 	@JoinTable(name = "member_roles",
 			joinColumns = @JoinColumn(name = "memberId"),
 			inverseJoinColumns = @JoinColumn(name = "roleId"))
 	private Set<Role> roles = new HashSet<>();
+
+	@OneToMany(mappedBy = "member")
+	private List<Attendance> attendanceList;
 }

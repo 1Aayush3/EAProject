@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.service.contract;
 
 import edu.miu.cs.cs544.domain.AccountType;
+import edu.miu.cs.cs544.domain.Member;
 
 import java.io.Serializable;
 
@@ -13,4 +14,8 @@ public class AccountPayload implements Serializable {
     private String description;
 
     private AccountType accountType;
+
+    private Member member;
+
+    private Double balance;
 }
