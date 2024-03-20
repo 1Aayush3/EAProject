@@ -3,6 +3,7 @@ package edu.miu.cs.cs544.controller;
 import edu.miu.cs.cs544.domain.*;
 import edu.miu.cs.cs544.repository.AttendanceRepository;
 import edu.miu.cs.cs544.repository.MemberRepository;
+import edu.miu.cs.cs544.repository.RegistrationRepository;
 import edu.miu.cs.cs544.repository.ScannerRepository;
 import edu.miu.cs.cs544.service.MemberService;
 import edu.miu.cs.cs544.service.contract.AttendanceDTO;
@@ -35,6 +36,9 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
     @Autowired
     AttendanceRepository attendanceRepository;
 
+    @Autowired
+    RegistrationRepository registrationRepository;
+
     @GetMapping("/{scannerCode}/records")
     public ResponseEntity<?> getScannerRecords(@PathVariable Integer scannerCode) {
 
@@ -66,6 +70,7 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
         if (!memberOptional.isPresent()) {
             return new ResponseEntity<>("Member not found", HttpStatus.NOT_FOUND);
         }
+        Member member = memberOptional.get();
 
         // Find scanner by code
         Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
@@ -73,6 +78,12 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
             return new ResponseEntity<>("Scanner not found", HttpStatus.NOT_FOUND);
         }
         Scanner scanner = scannerOptional.get();
+
+//         Check if the member is registered for the event
+        Optional<Registration> registrationOptional = registrationRepository.findByMemberAndEvent(member, scanner.getEvent());
+        if (!registrationOptional.isPresent()) {
+            return new ResponseEntity<>("Member is not registered for the event", HttpStatus.BAD_REQUEST);
+        }
 
         // Get current time
         LocalTime currentTime = LocalTime.now();
@@ -91,7 +102,6 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
         Session session = sessionOptional.get();
 
         // Create attendance for the member
-        Member member = memberOptional.get();
         Attendance attendance = new Attendance();
         attendance.setDate(currentDate);
         attendance.setTime(currentTime);
@@ -102,12 +112,27 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
 
         return new ResponseEntity<>("Attendance added successfully", HttpStatus.OK);
     }
-//
-    // PUT Endpoint to update an existing record for a scanner
+
 //    @PutMapping("/{scannerCode}/records/{recordId}")
-//    public String updateScannerRecord(@PathVariable Integer scannerCode, @PathVariable Long recordId, @RequestBody RecordPayload recordPayload) {
-//        // Logic to update the record with recordId for the scannerCode using the provided payload
-//        return "Updating record with ID: " + recordId + " for scanner with code: " + scannerCode;
+//    public String updateScannerRecord(@PathVariable Integer scannerCode,
+//                                      @PathVariable Integer recordId,
+//                                      @RequestBody AttendancePayload attendancePayload ) {
+//        Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
+//
+//        Scanner scanner = scannerOptional.orElse(null);
+//        if (scanner != null) {
+//            Event event = scanner.getEvent();
+//            List<Session> sessionList = event.getSessionList();
+//
+//            // Using streams to retrieve attendance from sessions
+//            List<Attendance> attendanceList = sessionList.stream()
+//                    .flatMap(session -> session.getAttendanceList().stream())
+//                    .collect(Collectors.toList());
+//
+//            return new ResponseEntity<>(attendanceList, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<String>("No Records", HttpStatus.NOT_FOUND);
+//        }
 //    }
 //
 //    // DELETE Endpoint to delete a record for a scanner

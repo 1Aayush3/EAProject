@@ -43,4 +43,8 @@ public class Member implements Serializable {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "member")
 	private List<Attendance> attendanceList;
+
+	public Integer getMemberId() {
+		return memberId;
+	}
 }
