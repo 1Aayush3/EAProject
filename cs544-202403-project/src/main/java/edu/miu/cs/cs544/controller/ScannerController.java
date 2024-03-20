@@ -1,13 +1,12 @@
 package edu.miu.cs.cs544.controller;
 
 import edu.miu.cs.cs544.domain.*;
-import edu.miu.cs.cs544.repository.AttendanceRepository;
-import edu.miu.cs.cs544.repository.MemberRepository;
-import edu.miu.cs.cs544.repository.RegistrationRepository;
-import edu.miu.cs.cs544.repository.ScannerRepository;
+import edu.miu.cs.cs544.repository.*;
 import edu.miu.cs.cs544.service.MemberService;
 import edu.miu.cs.cs544.service.contract.AttendanceDTO;
 import edu.miu.cs.cs544.service.contract.AttendancePayload;
+import edu.miu.cs.cs544.service.contract.RecordDto;
+import edu.miu.cs.cs544.service.mapper.AttendancePayloadToAttendanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +37,12 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
 
     @Autowired
     RegistrationRepository registrationRepository;
+
+    @Autowired
+    SessionRepository sessionRepository;
+
+    @Autowired
+    AttendancePayloadToAttendanceMapper attendancePayloadToAttendanceMapper;
 
     @GetMapping("/{scannerCode}/records")
     public ResponseEntity<?> getScannerRecords(@PathVariable Integer scannerCode) {
@@ -121,23 +126,48 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
     @PutMapping("/{scannerCode}/records/{recordId}")
     public ResponseEntity<?> updateScannerRecord(@PathVariable Integer scannerCode,
                                       @PathVariable Integer recordId,
-                                      @RequestBody AttendancePayload attendancePayload ) {
+                                      @RequestBody RecordDto recordDto ) {
+        // Find the scanner
         Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
-
-        Scanner scanner = scannerOptional.orElse(null);
-        if (scanner != null) {
-            Event event = scanner.getEvent();
-            List<Session> sessionList = event.getSessionList();
-
-            // Using streams to retrieve attendance from sessions
-            List<Attendance> attendanceList = sessionList.stream()
-                    .flatMap(session -> session.getAttendanceList().stream())
-                    .collect(Collectors.toList());
-
-            return new ResponseEntity<>(attendanceList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<String>("No Records", HttpStatus.NOT_FOUND);
+        if (!scannerOptional.isPresent()) {
+            return new ResponseEntity<>("Scanner not found", HttpStatus.NOT_FOUND);
         }
+        Scanner scanner = scannerOptional.get();
+
+        // Retrieve the event associated with the scanner
+        Event event = scanner.getEvent();
+        if (event == null) {
+            return new ResponseEntity<>("Event not found for the scanner", HttpStatus.NOT_FOUND);
+        }
+
+        // Get the list of attendance records associated with the event
+        List<Attendance> attendanceList = event.getSessionList().stream()
+                .flatMap(session -> session.getAttendanceList().stream())
+                .collect(Collectors.toList());
+
+        // Check if the recordId belongs to the attendanceList
+        boolean recordIdFound = attendanceList.stream()
+                .anyMatch(attendance -> attendance.getAttendanceId().equals(recordId));
+
+        if (!recordIdFound){
+            return new ResponseEntity<>("Attendance record not found", HttpStatus.OK);
+        }
+
+        Optional<Attendance> attendanceOptional = attendanceRepository.findByAttendanceId(recordId);
+        Attendance attendance = attendanceOptional.get();
+
+        Optional<Member> memberOptional = memberRepository.findByMemberId(recordDto.getMemberId());
+
+        Optional<Session> session = sessionRepository.findById(recordDto.getSessionId());
+
+        attendance.setMember(memberOptional.get());
+        attendance.setSession(session.get());
+        attendance.setDate(recordDto.getDate());
+        attendance.setTime(recordDto.getTime());
+
+        attendanceRepository.save(attendance);
+
+        return new ResponseEntity<>("Attendance record updated successfully", HttpStatus.OK);
     }
 //
 //    // DELETE Endpoint to delete a record for a scanner

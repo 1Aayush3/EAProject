@@ -34,5 +34,8 @@ public class Attendance implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "sessionId")
     private Session session;
+    public Integer getAttendanceId() {
+        return attendanceId;
+    }
 }
 
