@@ -2,6 +2,7 @@ package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
 import edu.miu.cs.cs544.domain.Account;
+import edu.miu.cs.cs544.domain.AccountType;
 import edu.miu.cs.cs544.domain.Session;
 import edu.miu.cs.cs544.repository.AccountRepository;
 import edu.miu.cs.cs544.service.contract.AccountPayload;
@@ -22,13 +23,14 @@ public class AccountServiceImpl extends BaseReadWriteServiceImpl<AccountPayload,
     @Autowired
     AccountRepository accountRepository;
 
-    @Autowired
-    private SessionToSessionPayloadMapper sessionToSessionPayloadMapper;
 
-    public List<SessionPayload> getAttendanceForAccount(Integer accountId, LocalDate startDate, LocalDate endDate) {
-        List<Session> sessions = accountRepository.findSessionsByAccountIdAndDateRange(accountId, startDate, endDate);
-        return sessions.stream()
-                .map(sessionToSessionPayloadMapper::map)
-                .collect(Collectors.toList());
+    @Override
+    public int countAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate) {
+        return accountRepository.countAccountsByTypeAndDateRange(accountType, startDate, endDate);
+    }
+
+    @Override
+    public List<Account> findAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate) {
+        return accountRepository.findAccountsByTypeAndDateRange(accountType, startDate, endDate);
     }
 }
