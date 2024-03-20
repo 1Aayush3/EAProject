@@ -20,4 +20,6 @@ public class AccountPayload implements Serializable {
     private Member member;
 
     private Double balance;
+
+    private Boolean status;
 }

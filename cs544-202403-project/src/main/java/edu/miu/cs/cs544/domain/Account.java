@@ -28,4 +28,7 @@ public class Account implements Serializable {
 
     @Column(name = "Balance")
     private Double balance;
+
+    @Column(name = "Status")
+    private Boolean status;
 }
