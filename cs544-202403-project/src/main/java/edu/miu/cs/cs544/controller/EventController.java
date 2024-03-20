@@ -14,6 +14,7 @@ import edu.miu.cs.cs544.service.mapper.EventPayloadToEventMapper;
 @RestController
 @RequestMapping("/events")
 public class EventController extends BaseReadWriteController<EventPayload, Event, Integer> {
+    //EventController
     @Autowired
     private EventRepository eventRepository;
 
