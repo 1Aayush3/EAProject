@@ -12,6 +12,8 @@ import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
 
 import java.awt.print.Book;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -42,5 +44,11 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         memberService.deleteMember(id);
         return new ResponseEntity<String>("Deletedt Successfully!", HttpStatus.OK);
+    }
+
+    @GetMapping("/{memberId}/attendance")
+    public ResponseEntity<?> getMemberAttendance(@PathVariable Integer memberId) {
+        List<Object[]> result = memberService.getMemberAttendanceOverAccounts(memberId);
+        return new ResponseEntity<List<Object[]>>(result, HttpStatus.OK);
     }
 }

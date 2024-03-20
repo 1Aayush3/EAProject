@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.service.contract;
 
+import edu.miu.cs.cs544.domain.AccountType;
 import edu.miu.cs.cs544.domain.Location;
 import lombok.Data;
 import java.io.Serializable;
@@ -12,5 +13,7 @@ public class ScannerPayload implements Serializable {
     private Integer scannerCode;
 
     private Location location;
+
+    private AccountType accountType;
 
 }
