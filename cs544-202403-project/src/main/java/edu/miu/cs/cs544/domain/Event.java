@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,7 @@ public class Event implements Serializable {
 
     @OneToMany()
     @JoinColumn(name = "event_id")
-    List<Session> sessionList;
+    List<Session> sessionList = new ArrayList<>();
 
     // Constructors
     public Event() {
