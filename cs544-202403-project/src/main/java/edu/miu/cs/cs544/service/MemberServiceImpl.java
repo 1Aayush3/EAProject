@@ -3,6 +3,7 @@ package edu.miu.cs.cs544.service;
 import edu.miu.cs.cs544.DefaultAccountConfig;
 import edu.miu.cs.cs544.domain.*;
 import edu.miu.cs.cs544.repository.AccountRepository;
+import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Transactional
     public void createMember(Member member) {
@@ -73,5 +77,22 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
             accountRepository.delete(account);
         }
         memberRepository.delete(member);
+    }
+
+    @Override
+    public Integer memberAttendanceForEvent(Integer memberId, Integer eventId) {
+        int result = 0;
+        Optional<Event> eventOptional = this.eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            List<Session> sessions = this.memberRepository.memberAttendanceForEvent(memberId);
+            for (Session eventSession : eventOptional.get().getSessionList()) {
+                long count = sessions.stream().filter(session -> session.getId().equals(eventSession.getId())).count();
+                if(count>=1){
+                    result++;
+                }
+            }
+            return result;
+        }
+        return result;
     }
 }

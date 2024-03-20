@@ -10,4 +10,6 @@ public interface MemberService extends BaseReadWriteService <MemberPayload, Memb
     public void updateMember(Integer memberId, Member member);
 
     public void deleteMember(Integer memberId);
+
+    Integer memberAttendanceForEvent(Integer memberId, Integer eventId);
 }
