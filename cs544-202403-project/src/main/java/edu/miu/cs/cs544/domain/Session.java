@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,8 @@ public class Session implements Serializable {
 
     @Column(name = "end_time")
     private LocalTime endTime;
-    @OneToMany(mappedBy = "session")
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Attendance> attendanceList;
 }
