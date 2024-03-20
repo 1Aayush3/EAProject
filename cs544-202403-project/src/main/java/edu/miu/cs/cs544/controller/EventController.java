@@ -4,6 +4,7 @@ import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.EventService;
+import edu.miu.cs.cs544.service.EventServiceImpl;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,17 +26,17 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
     @Autowired
     private EventService eventService;
 
+
     @GetMapping("/{eventId}/attendance")
-    public ResponseEntity<Long> getEventAttendance(@PathVariable Integer eventId) {
-        int attendanceCount = eventService.calculateAttendanceForEvent(eventId);
-        return ResponseEntity.ok((long) attendanceCount);
-    }
-
-
-
-    @GetMapping(path = "/{eventId}/sessions")
-    public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "eventId") Integer eventId){
-        return ResponseEntity.ok(this.eventService.getAllSessionsForEvent(eventId));
+    public ResponseEntity<?> getEventAttendance(@PathVariable Integer eventId) {
+        try {
+            Integer attendanceCount = eventService.calculateAttendanceForEvent(eventId);
+            return ResponseEntity.ok((long) attendanceCount);
+        } catch (NullPointerException e) {
+            // Log the exception message to the console
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found");
+        }
     }
 
 
