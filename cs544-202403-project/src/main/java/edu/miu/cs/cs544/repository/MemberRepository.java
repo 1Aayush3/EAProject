@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface MemberRepository extends BaseRepository<Member, Integer>{
     Optional<Member> findByMemberId(Integer memberId);
 
+    Optional<Member> findByBarCode(Integer barCode);
 
     @Query(value = "select a.session from Attendance a where a.member.memberId = :memberId")
     List<Session> memberAttendanceForEvent(Integer memberId);
