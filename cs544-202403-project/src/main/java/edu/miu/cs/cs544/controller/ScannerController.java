@@ -79,8 +79,13 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
         }
         Scanner scanner = scannerOptional.get();
 
-//         Check if the member is registered for the event
-        Optional<Registration> registrationOptional = registrationRepository.findByMemberAndEvent(member, scanner.getEvent());
+        Event event = scanner.getEvent();
+        if(event == null){
+            return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
+        }
+
+        // Check if the member is registered for the event
+        Optional<Registration> registrationOptional = registrationRepository.findByMemberAndEvent(member, event);
         if (!registrationOptional.isPresent()) {
             return new ResponseEntity<>("Member is not registered for the event", HttpStatus.BAD_REQUEST);
         }
@@ -90,7 +95,7 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
         LocalDate currentDate = LocalDate.now();
 
         // Find session with time between now and end time
-        Optional<Session> sessionOptional = scanner.getEvent().getSessionList().stream()
+        Optional<Session> sessionOptional = event.getSessionList().stream()
                 .filter(session -> session.getDate().isEqual(currentDate) &&
                         session.getStartTime().isBefore(currentTime) &&
                         session.getEndTime().isAfter(currentTime))
@@ -113,27 +118,27 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
         return new ResponseEntity<>("Attendance added successfully", HttpStatus.OK);
     }
 
-//    @PutMapping("/{scannerCode}/records/{recordId}")
-//    public String updateScannerRecord(@PathVariable Integer scannerCode,
-//                                      @PathVariable Integer recordId,
-//                                      @RequestBody AttendancePayload attendancePayload ) {
-//        Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
-//
-//        Scanner scanner = scannerOptional.orElse(null);
-//        if (scanner != null) {
-//            Event event = scanner.getEvent();
-//            List<Session> sessionList = event.getSessionList();
-//
-//            // Using streams to retrieve attendance from sessions
-//            List<Attendance> attendanceList = sessionList.stream()
-//                    .flatMap(session -> session.getAttendanceList().stream())
-//                    .collect(Collectors.toList());
-//
-//            return new ResponseEntity<>(attendanceList, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<String>("No Records", HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @PutMapping("/{scannerCode}/records/{recordId}")
+    public ResponseEntity<?> updateScannerRecord(@PathVariable Integer scannerCode,
+                                      @PathVariable Integer recordId,
+                                      @RequestBody AttendancePayload attendancePayload ) {
+        Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
+
+        Scanner scanner = scannerOptional.orElse(null);
+        if (scanner != null) {
+            Event event = scanner.getEvent();
+            List<Session> sessionList = event.getSessionList();
+
+            // Using streams to retrieve attendance from sessions
+            List<Attendance> attendanceList = sessionList.stream()
+                    .flatMap(session -> session.getAttendanceList().stream())
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(attendanceList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("No Records", HttpStatus.NOT_FOUND);
+        }
+    }
 //
 //    // DELETE Endpoint to delete a record for a scanner
 //    @DeleteMapping("/{scannerCode}/records/{recordId}")
