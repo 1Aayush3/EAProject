@@ -52,12 +52,12 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
 //        return "Creating record for scanner with code: " + scannerCode;
 //    }
 //
-//    // PUT Endpoint to update an existing record for a scanner
-//    @PutMapping("/{scannerCode}/records/{recordId}")
-//    public String updateScannerRecord(@PathVariable Integer scannerCode, @PathVariable Long recordId, @RequestBody RecordPayload recordPayload) {
-//        // Logic to update the record with recordId for the scannerCode using the provided payload
-//        return "Updating record with ID: " + recordId + " for scanner with code: " + scannerCode;
-//    }
+    // PUT Endpoint to update an existing record for a scanner
+    @PutMapping("/{scannerCode}/records/{recordId}")
+    public String updateScannerRecord(@PathVariable Integer scannerCode, @PathVariable Long recordId, @RequestBody RecordPayload recordPayload) {
+        // Logic to update the record with recordId for the scannerCode using the provided payload
+        return "Updating record with ID: " + recordId + " for scanner with code: " + scannerCode;
+    }
 //
 //    // DELETE Endpoint to delete a record for a scanner
 //    @DeleteMapping("/{scannerCode}/records/{recordId}")
