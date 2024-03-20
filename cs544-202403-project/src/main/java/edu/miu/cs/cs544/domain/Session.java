@@ -27,7 +27,8 @@ public class Session implements Serializable {
 
     @Column(name = "end_time")
     private LocalTime endTime;
+
     @JsonManagedReference
-    @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Attendance> attendanceList;
 }
