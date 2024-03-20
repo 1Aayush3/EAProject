@@ -31,7 +31,7 @@ public class Attendance implements Serializable {
     private Member member;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sessionId")
     private Session session;
     public Integer getAttendanceId() {

@@ -169,11 +169,26 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
 
         return new ResponseEntity<>("Attendance record updated successfully", HttpStatus.OK);
     }
-//
-//    // DELETE Endpoint to delete a record for a scanner
-//    @DeleteMapping("/{scannerCode}/records/{recordId}")
-//    public String deleteScannerRecord(@PathVariable Integer scannerCode, @PathVariable Long recordId) {
-//        // Logic to delete the record with recordId for the scannerCode
-//        return "Deleting record with ID: " + recordId + " for scanner with code: " + scannerCode;
-//    }
+
+    @DeleteMapping("/{scannerCode}/records/{recordId}")
+    public ResponseEntity<String> deleteScannerRecord(@PathVariable Integer scannerCode, @PathVariable Integer recordId) {
+        // Check if the scanner exists
+        Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
+        if (!scannerOptional.isPresent()) {
+            return new ResponseEntity<>("Scanner not found", HttpStatus.NOT_FOUND);
+        }
+
+        // Retrieve the attendance record from the repository
+        Optional<Attendance> attendanceOptional = attendanceRepository.findByAttendanceId(recordId);
+        if (!attendanceOptional.isPresent()) {
+            return new ResponseEntity<>("Attendance record not found", HttpStatus.NOT_FOUND);
+        }
+
+        // Delete the attendance record
+        attendanceRepository.delete(attendanceOptional.get());
+
+        return new ResponseEntity<>("Attendance record deleted successfully", HttpStatus.OK);
+    }
+
+
 }
