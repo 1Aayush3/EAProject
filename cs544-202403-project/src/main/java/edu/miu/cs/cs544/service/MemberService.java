@@ -14,5 +14,5 @@ public interface MemberService extends BaseReadWriteService <MemberPayload, Memb
 
     public void deleteMember(Integer memberId);
 
-    public List<Object[]> getMemberAttendanceOverAccounts(Integer memberId);
+    public Object[] getMemberAttendanceOverAccounts(Integer memberId);
 }

@@ -48,7 +48,7 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
 
     @GetMapping("/{memberId}/attendance")
     public ResponseEntity<?> getMemberAttendance(@PathVariable Integer memberId) {
-        List<Object[]> result = memberService.getMemberAttendanceOverAccounts(memberId);
-        return new ResponseEntity<List<Object[]>>(result, HttpStatus.OK);
+        Object[] result = memberService.getMemberAttendanceOverAccounts(memberId);
+        return new ResponseEntity<Object[]>(result, HttpStatus.OK);
     }
 }

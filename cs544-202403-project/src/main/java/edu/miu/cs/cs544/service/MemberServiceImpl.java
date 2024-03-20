@@ -75,7 +75,7 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
         memberRepository.delete(member);
     }
 
-    public List<Object[]> getMemberAttendanceOverAccounts(Integer memberId) {
+    public Object[] getMemberAttendanceOverAccounts(Integer memberId) {
         return memberRepository.calculateAttendanceByMemberId(memberId);
     }
 }

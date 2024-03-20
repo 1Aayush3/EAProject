@@ -30,4 +30,10 @@ public class Session implements Serializable {
     @JsonManagedReference
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Attendance> attendanceList;
+
+    public Session(LocalDate date, LocalTime startTime, LocalTime endTime) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }
