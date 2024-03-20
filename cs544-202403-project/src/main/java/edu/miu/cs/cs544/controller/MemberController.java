@@ -2,6 +2,7 @@ package edu.miu.cs.cs544.controller;
 
 import edu.miu.cs.cs544.service.MemberService;
 import edu.miu.cs.cs544.service.mapper.MemberPayloadToMemberMapper;
+import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,13 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         memberService.deleteMember(id);
         return new ResponseEntity<String>("Deletedt Successfully!", HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{memberId}/events/{eventId}/attendance")
+    public ResponseEntity<Integer> memberAttendanceForEvent(
+            @PathVariable(value = "memberId") Integer memberId,
+            @PathVariable(value = "eventId") Integer eventId
+            ){
+        return ResponseEntity.ok(this.memberService.memberAttendanceForEvent(memberId,eventId));
     }
 }
