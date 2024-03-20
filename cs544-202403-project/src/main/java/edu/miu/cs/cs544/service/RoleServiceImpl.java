@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.service;
 
 import edu.miu.cs.cs544.domain.Role;
+import edu.miu.cs.cs544.domain.RoleType;
 import edu.miu.cs.cs544.repository.RoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
 
     @Override
-    public void create(String type) {
+    public void create(RoleType type) {
         Role role = new Role();
         role.setRoleType(type);
        roleRepository.save(role);

@@ -14,7 +14,7 @@ public class SessionPayload implements Serializable {
     private Integer id;
 
     private LocalDate date;
-
-    private LocalTime time;
+private LocalTime startTime;
+    private LocalTime endTime;
 
 }
