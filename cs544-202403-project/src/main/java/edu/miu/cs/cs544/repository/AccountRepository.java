@@ -3,13 +3,9 @@ package edu.miu.cs.cs544.repository;
 import edu.miu.common.repository.BaseRepository;
 import edu.miu.cs.cs544.domain.Account;
 import edu.miu.cs.cs544.domain.AccountType;
-import edu.miu.cs.cs544.domain.Attendance;
-import edu.miu.cs.cs544.domain.Session;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import edu.miu.cs.cs544.domain.Member;
-import feign.Param;
-import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;

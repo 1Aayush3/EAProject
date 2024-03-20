@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.service.contract;
 
 import edu.miu.cs.cs544.domain.Event;
+import edu.miu.cs.cs544.domain.AccountType;
 import edu.miu.cs.cs544.domain.Location;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,7 @@ public class ScannerPayload implements Serializable {
     private Location location;
 
     private Event event;
+
+    private AccountType accountType;
 
 }
