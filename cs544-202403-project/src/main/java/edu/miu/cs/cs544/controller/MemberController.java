@@ -2,7 +2,6 @@ package edu.miu.cs.cs544.controller;
 
 import edu.miu.cs.cs544.service.MemberService;
 import edu.miu.cs.cs544.service.mapper.MemberPayloadToMemberMapper;
-import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,7 @@ import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
 
-import java.awt.print.Book;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -51,5 +50,11 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
             @PathVariable(value = "eventId") Integer eventId
             ){
         return ResponseEntity.ok(this.memberService.memberAttendanceForEvent(memberId,eventId));
+    }
+
+    @GetMapping("/{memberId}/attendance")
+    public ResponseEntity<?> getMemberAttendance(@PathVariable Integer memberId) {
+        List<Object[]> result = memberService.getMemberAttendanceOverAccounts(memberId);
+        return new ResponseEntity<List<Object[]>>(result, HttpStatus.OK);
     }
 }
