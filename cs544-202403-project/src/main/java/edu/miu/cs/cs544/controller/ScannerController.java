@@ -1,18 +1,23 @@
 package edu.miu.cs.cs544.controller;
 
-import edu.miu.cs.cs544.domain.Attendance;
-import edu.miu.cs.cs544.domain.Event;
-import edu.miu.cs.cs544.domain.Session;
+import edu.miu.cs.cs544.domain.*;
+import edu.miu.cs.cs544.repository.AttendanceRepository;
+import edu.miu.cs.cs544.repository.MemberRepository;
 import edu.miu.cs.cs544.repository.ScannerRepository;
+import edu.miu.cs.cs544.service.MemberService;
+import edu.miu.cs.cs544.service.contract.AttendanceDTO;
+import edu.miu.cs.cs544.service.contract.AttendancePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import edu.miu.common.controller.BaseReadWriteController;
-import edu.miu.cs.cs544.domain.Scanner;
 import edu.miu.cs.cs544.service.contract.ScannerPayload;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +28,12 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
 
     @Autowired
     ScannerRepository scannerRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    AttendanceRepository attendanceRepository;
 
     @GetMapping("/{scannerCode}/records")
     public ResponseEntity<?> getScannerRecords(@PathVariable Integer scannerCode) {
@@ -46,11 +57,51 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
     }
 
 
-//    @PostMapping("/{scannerCode}/records")
-//    public String createScannerRecord(@PathVariable Integer scannerCode, @RequestBody RecordPayload recordPayload) {
-//        // Logic to create a new record for the scannerCode using the provided payload
-//        return "Creating record for scanner with code: " + scannerCode;
-//    }
+    @PostMapping("/{scannerCode}/records")
+    public ResponseEntity<String> createScannerRecord(@PathVariable Integer scannerCode, @RequestBody AttendanceDTO attendanceDTO) {
+        Integer barcode = attendanceDTO.getBarCode();
+
+        // Find member by barcode
+        Optional<Member> memberOptional = memberRepository.findByBarCode(barcode);
+        if (!memberOptional.isPresent()) {
+            return new ResponseEntity<>("Member not found", HttpStatus.NOT_FOUND);
+        }
+
+        // Find scanner by code
+        Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
+        if (!scannerOptional.isPresent()) {
+            return new ResponseEntity<>("Scanner not found", HttpStatus.NOT_FOUND);
+        }
+        Scanner scanner = scannerOptional.get();
+
+        // Get current time
+        LocalTime currentTime = LocalTime.now();
+        LocalDate currentDate = LocalDate.now();
+
+        // Find session with time between now and end time
+        Optional<Session> sessionOptional = scanner.getEvent().getSessionList().stream()
+                .filter(session -> session.getDate().isEqual(currentDate) &&
+                        session.getStartTime().isBefore(currentTime) &&
+                        session.getEndTime().isAfter(currentTime))
+                .findFirst();
+
+        if (!sessionOptional.isPresent()) {
+            return new ResponseEntity<>("No active session found", HttpStatus.NOT_FOUND);
+        }
+        Session session = sessionOptional.get();
+
+        // Create attendance for the member
+        Member member = memberOptional.get();
+        Attendance attendance = new Attendance();
+        attendance.setDate(currentDate);
+        attendance.setTime(currentTime);
+        attendance.setMember(member);
+        attendance.setSession(session);
+
+        attendanceRepository.save(attendance);
+
+        return new ResponseEntity<>("Attendance added successfully", HttpStatus.OK);
+    }
 //
     // PUT Endpoint to update an existing record for a scanner
 //    @PutMapping("/{scannerCode}/records/{recordId}")
