@@ -8,10 +8,12 @@ import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.domain.Scanner;
 import edu.miu.cs.cs544.repository.ScannerRepository;
 import edu.miu.cs.cs544.service.contract.AttendancePayload;
+import edu.miu.cs.cs544.service.mapper.AttendanceToAttendancePayloadMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +24,9 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
     @Autowired
     ScannerRepository scannerRepository;
 
+    @Autowired
+    AttendanceToAttendancePayloadMapper attendanceToAttendancePayloadMapper;
+
     @Override
     public List<AttendancePayload> getAllSessionsForEvent(Integer scannerCode) {
         Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
@@ -31,17 +36,15 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
             Event event = scanner.getEvent();
 
             if (event != null) {
-                List<Attendance> attendanceList = event.getSessionList().stream()
-                        .flatMap(session -> session.getAttendanceList().stream())
-                        .collect(Collectors.toList());
 
-                return ResponseEntity.ok(attendanceList);
+                return event.getSessionList().stream()
+                        .flatMap(session -> session.getAttendanceList().stream().map(attendance -> attendanceToAttendancePayloadMapper.map(attendance)))
+                        .collect(Collectors.toList());
             } else {
-                return ResponseEntity.notFound().build();
+                return Collections.emptyList();
             }
         } else {
-            return ResponseEntity.notFound().build();
+            return Collections.emptyList();
         }
-        return null;
     }
 }

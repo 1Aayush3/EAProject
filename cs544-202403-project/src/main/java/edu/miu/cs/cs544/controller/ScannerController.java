@@ -49,8 +49,15 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
 
     @GetMapping("/{scannerCode}/records")
     public ResponseEntity<?> getScannerRecords(@PathVariable Integer scannerCode) {
-        return ResponseEntity.ok(attendanceService.getAllSessionsForEvent(scannerCode));
+        List<AttendancePayload> attendanceList = attendanceService.getAllSessionsForEvent(scannerCode);
+
+        if (attendanceList != null && !attendanceList.isEmpty()) {
+            return ResponseEntity.ok(attendanceList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     @GetMapping("/{scannerCode}/records/{recordId}")
     public ResponseEntity<?> getScannerRecord(@PathVariable Integer scannerCode, @PathVariable Integer recordId) {
@@ -80,20 +87,20 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
         // Find member by barcode
         Optional<Member> memberOptional = memberRepository.findByBarCode(barcode);
         if (memberOptional.isEmpty()) {
-            return ResponseEntity.notFound().body("Member not found");
+            return ResponseEntity.notFound().build();
         }
         Member member = memberOptional.get();
 
         // Find scanner by code
         Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
         if (scannerOptional.isEmpty()) {
-            return ResponseEntity.notFound().body("Scanner not found");
+            return ResponseEntity.notFound().build();
         }
         Scanner scanner = scannerOptional.get();
 
         Event event = scanner.getEvent();
         if (event == null) {
-            return ResponseEntity.notFound().body("Event not found");
+            return ResponseEntity.notFound().build();
         }
 
         // Check if the member is registered for the event
@@ -113,7 +120,7 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
                 .findFirst();
 
         if (sessionOptional.isEmpty()) {
-            return ResponseEntity.notFound().body("No active session found");
+            return ResponseEntity.notFound().build();
         }
         Session session = sessionOptional.get();
 
