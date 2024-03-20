@@ -96,7 +96,12 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
         return result;
     }
 
-    public List<Object[]> getMemberAttendanceOverAccounts(Integer memberId) {
-        return memberRepository.calculateAttendanceByMemberId(memberId);
+    public HashMap<String, Integer> getMemberAttendanceOverAccounts(Integer memberId) {
+        HashMap<String, Integer> result = new HashMap<>();
+        List<AttendanceByMemberIdStatistics> dataFromRepo = memberRepository.calculateAttendanceByMemberId(memberId);
+        for (AttendanceByMemberIdStatistics data : dataFromRepo) {
+            result.put(data.getAccountType(), data.getNo());
+        }
+        return result;
     }
 }

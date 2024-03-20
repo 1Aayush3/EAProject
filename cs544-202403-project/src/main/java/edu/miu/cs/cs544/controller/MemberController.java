@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.controller;
 
+import edu.miu.cs.cs544.domain.AttendanceByMemberIdStatistics;
 import edu.miu.cs.cs544.service.MemberService;
 import edu.miu.cs.cs544.service.mapper.MemberPayloadToMemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.service.contract.MemberPayload;
 
-import java.util.List;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/members")
@@ -54,7 +55,7 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
 
     @GetMapping("/{memberId}/attendance")
     public ResponseEntity<?> getMemberAttendance(@PathVariable Integer memberId) {
-        List<Object[]> result = memberService.getMemberAttendanceOverAccounts(memberId);
-        return new ResponseEntity<List<Object[]>>(result, HttpStatus.OK);
+        HashMap<String, Integer> result = memberService.getMemberAttendanceOverAccounts(memberId);
+        return new ResponseEntity<HashMap<String, Integer>>(result, HttpStatus.OK);
     }
 }
