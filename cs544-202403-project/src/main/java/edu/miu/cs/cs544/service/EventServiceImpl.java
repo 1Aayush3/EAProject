@@ -91,7 +91,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
     }
 
     @Override
-    public Long calculateAttendanceForEvent(Integer eventId) {
+    public int calculateAttendanceForEvent(Integer eventId) {
         // Retrieve the event from the service
         Event event = eventRepository.findById(eventId).orElse(null);
 
@@ -99,7 +99,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
             throw new EventNotFoundException("Event not found with ID: " + eventId);
         }
 
-        return event.getSessionList().stream()
+        return (int) event.getSessionList().stream()
                 .flatMap(session -> session.getAttendanceList().stream())
                 .distinct() // Ensure distinct attendances
                 .count();

@@ -27,8 +27,8 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
 
     @GetMapping("/{eventId}/attendance")
     public ResponseEntity<Long> getEventAttendance(@PathVariable Integer eventId) {
-        Long attendanceCount = eventService.calculateAttendanceForEvent(eventId);
-        return ResponseEntity.ok(attendanceCount);
+        int attendanceCount = eventService.calculateAttendanceForEvent(eventId);
+        return ResponseEntity.ok((long) attendanceCount);
     }
 
 
