@@ -67,7 +67,8 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
                     .findFirst();
             if(sessionOptional.isPresent()){
                 Session session = sessionOptional.get();
-                session.setTime(sessionPayload.getTime());
+                session.setStartTime(sessionPayload.getStartTime());
+                session.setEndTime(sessionPayload.getEndTime());
                 session.setDate(sessionPayload.getDate());
                 this.eventRepository.save(event);
                 return sessionPayload;

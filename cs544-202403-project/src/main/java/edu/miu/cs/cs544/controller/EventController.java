@@ -4,14 +4,13 @@ import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.EventService;
+import edu.miu.cs.cs544.service.contract.SessionPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.mapper.EventPayloadToEventMapper;
-
-import edu.miu.cs.cs544.service.EventService;
 
 
 @RestController
@@ -23,7 +22,7 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
     @Autowired
     private EventPayloadToEventMapper eventPayloadToEventMapper;
 
-    @ِAutowired
+    @Autowired
     private EventService eventService;
 
     @GetMapping("/{eventId}/attendance")

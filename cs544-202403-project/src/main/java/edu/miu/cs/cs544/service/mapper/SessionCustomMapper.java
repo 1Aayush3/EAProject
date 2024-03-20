@@ -11,7 +11,8 @@ public class SessionCustomMapper {
         SessionPayload sessionPayload = new SessionPayload();
         sessionPayload.setId(session.getId());
         sessionPayload.setDate(session.getDate());
-        sessionPayload.setTime(session.getTime());
+        sessionPayload.setStartTime(session.getStartTime());
+        sessionPayload.setEndTime(session.getEndTime());
         return sessionPayload;
     }
 
@@ -19,7 +20,8 @@ public class SessionCustomMapper {
         Session session = new Session();
         session.setId(sessionPayload.getId());
         session.setDate(sessionPayload.getDate());
-        session.setTime(sessionPayload.getTime());
+        session.setStartTime(sessionPayload.getStartTime());
+        session.setEndTime(sessionPayload.getEndTime());
         return session;
     }
 }
