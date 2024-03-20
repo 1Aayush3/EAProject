@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
+import edu.miu.cs.cs544.controller.EventController;
 import edu.miu.cs.cs544.domain.Event;
 
 
@@ -10,7 +11,9 @@ import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import edu.miu.cs.cs544.service.mapper.SessionCustomMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,4 +89,28 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
         }
         return "Event not found";
     }
-}
+
+    @Override
+    public int calculateAttendanceForEvent(Integer eventId) {
+        // Retrieve the event from the service
+        Event event = eventRepository.findById(eventId).orElse(null);
+
+        if (event == null) {
+            throw new EventNotFoundException("Event not found with ID: " + eventId);
+        }
+
+        return (int) event.getSessionList().stream()
+                .flatMap(session -> session.getAttendanceList().stream())
+                .distinct() // Ensure distinct attendances
+                .count();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public class EventNotFoundException extends RuntimeException {
+        public EventNotFoundException(String message) {
+            super(message);
+        }
+    }
+
+    }
+

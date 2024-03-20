@@ -27,23 +27,11 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
 
     @GetMapping("/{eventId}/attendance")
     public ResponseEntity<Long> getEventAttendance(@PathVariable Integer eventId) {
-        Long attendanceCount = calculateAttendanceForEvent(eventId);
-        return ResponseEntity.ok(attendanceCount);
+        int attendanceCount = eventService.calculateAttendanceForEvent(eventId);
+        return ResponseEntity.ok((long) attendanceCount);
     }
 
-    private Long calculateAttendanceForEvent(Integer eventId) {
-        // Retrieve the event from the service
-        Event event = eventRepository.findById(eventId).orElse(null);
 
-        if (event == null) {
-            throw new EventNotFoundException("Event not found with ID: " + eventId);
-        }
-
-        return event.getSessionList().stream()
-                .flatMap(session -> session.getAttendanceList().stream())
-                .distinct() // Ensure distinct attendances
-                .count();
-    }
 
     @GetMapping(path = "/{eventId}/sessions")
     public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "eventId") Integer eventId){
@@ -71,10 +59,5 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
         return ResponseEntity.ok(this.eventService.deleteSessionFromEvent(eventId,sessionId));
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public class EventNotFoundException extends RuntimeException {
-        public EventNotFoundException(String message) {
-            super(message);
-        }
-    }
+
 }
