@@ -26,7 +26,7 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
         return ResponseEntity.ok(attendanceCount);
     }
 
-    private Long calculateAttendanceForEvent(Integer eventId) {
+    public Long calculateAttendanceForEvent(Integer eventId) {
         // Retrieve the event from the service
         Event event = eventRepository.findById(eventId).orElse(null);
 
