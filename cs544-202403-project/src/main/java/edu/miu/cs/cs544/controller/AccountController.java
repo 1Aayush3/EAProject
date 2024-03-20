@@ -23,6 +23,7 @@ public class AccountController extends BaseReadWriteController<AccountPayload, A
         return accountService.countAccountsByTypeAndDateRange(accountType, startDate, endDate);
     }
 
+    //not important- first trial
     @GetMapping("/type/{accountType}")
     public List<Account> findAccountsByTypeAndDateRange(@PathVariable AccountType accountType, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         return accountService.findAccountsByTypeAndDateRange(accountType, startDate, endDate);
