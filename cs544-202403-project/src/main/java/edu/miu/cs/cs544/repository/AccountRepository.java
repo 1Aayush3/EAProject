@@ -6,6 +6,7 @@ import edu.miu.cs.cs544.domain.AccountType;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import edu.miu.cs.cs544.domain.Member;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,4 +27,9 @@ public interface AccountRepository extends BaseRepository<Account, Integer> {
 
     @Query("select a from Account a where a.member.memberId = :memberId")
     Optional<List<Account>> findByMemberId(@Param("memberId") Integer memberId);
+
+    List <Account> findByAccountType(AccountType accountType);
+
+    @Query("SELECT a FROM Account a WHERE a.member.memberId = :memberId AND a.accountType = :accountType")
+    Account findByMemberIdAndAccountType(@Param("memberId") Integer memberId, @Param("accountType") AccountType accountType);
 }
