@@ -18,4 +18,6 @@ public interface AccountService extends BaseReadWriteService<AccountPayload, Acc
 
 
     void reduceBalanceOnAttendance(Integer memberId, AccountType accountType);
+
+    List<Account> findAccountsLessThanFivePercentOfDefault();
 }

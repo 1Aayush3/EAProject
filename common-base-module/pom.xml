@@ -51,31 +51,31 @@
 		<org.apache.httpclient5-version>5.3</org.apache.httpclient5-version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>comprodev</id>
-			<url>https://pkgs.dev.azure.com/comprodev/_packaging/comprodev/maven/v1</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+<!--	<repositories>-->
+<!--		<repository>-->
+<!--			<id>comprodev</id>-->
+<!--			<url>https://pkgs.dev.azure.com/comprodev/_packaging/comprodev/maven/v1</url>-->
+<!--			<releases>-->
+<!--				<enabled>true</enabled>-->
+<!--			</releases>-->
+<!--			<snapshots>-->
+<!--				<enabled>true</enabled>-->
+<!--			</snapshots>-->
+<!--		</repository>-->
+<!--	</repositories>-->
 
-	<distributionManagement>
-		<repository>
-			<id>comprodev</id>
-			<url>https://pkgs.dev.azure.com/comprodev/_packaging/comprodev/maven/v1</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</distributionManagement>
+<!--	<distributionManagement>-->
+<!--		<repository>-->
+<!--			<id>comprodev</id>-->
+<!--			<url>https://pkgs.dev.azure.com/comprodev/_packaging/comprodev/maven/v1</url>-->
+<!--			<releases>-->
+<!--				<enabled>true</enabled>-->
+<!--			</releases>-->
+<!--			<snapshots>-->
+<!--				<enabled>true</enabled>-->
+<!--			</snapshots>-->
+<!--		</repository>-->
+<!--	</distributionManagement>-->
 
 	<dependencyManagement>
 		<dependencies>
