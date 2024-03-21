@@ -45,16 +45,4 @@ public class Member implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<Attendance> attendanceList;
-
-	public Integer getMemberId() {
-		return memberId;
-	}
-
-	public Integer getBarcode() {
-		return barCode;
-	}
-
-	public void setBarcode(int barcode) {
-		this.barCode = barcode;
-	}
 }
