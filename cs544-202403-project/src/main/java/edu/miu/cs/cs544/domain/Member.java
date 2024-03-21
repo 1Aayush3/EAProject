@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import lombok.Data;
 @Entity
 public class Member implements Serializable {
 	
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Id
