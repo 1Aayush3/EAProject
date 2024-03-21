@@ -25,6 +25,15 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
     @Autowired
     private EventRepository eventRepository;
 
+    public MemberServiceImpl() {
+    }
+
+    public MemberServiceImpl(MemberRepository memberRepository, AccountRepository accountRepository, EventRepository eventRepository) {
+        this.memberRepository = memberRepository;
+        this.accountRepository = accountRepository;
+        this.eventRepository = eventRepository;
+    }
+
     @Transactional
     public void createMember(Member member) {
         memberRepository.save(member);
