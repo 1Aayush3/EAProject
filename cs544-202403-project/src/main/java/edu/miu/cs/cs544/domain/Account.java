@@ -28,7 +28,7 @@ public class Account implements Serializable {
     private Member member;
 
     @Column(name = "Balance")
-    private int balance;
+    private double balance;
 
     @Column(name = "Status")
     private Boolean status;

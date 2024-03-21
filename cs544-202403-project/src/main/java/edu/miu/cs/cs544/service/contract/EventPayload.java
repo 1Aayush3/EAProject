@@ -3,6 +3,7 @@ package edu.miu.cs.cs544.service.contract;
 import edu.miu.cs.cs544.domain.Session;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 public class EventPayload implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Integer id;
@@ -20,5 +22,5 @@ public class EventPayload implements Serializable {
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
-    private List<Session> session;
+//    private List<Session> session;
 }

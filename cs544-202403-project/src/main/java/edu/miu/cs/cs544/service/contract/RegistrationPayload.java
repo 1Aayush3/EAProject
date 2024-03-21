@@ -12,7 +12,7 @@ public class RegistrationPayload implements Serializable {
 
     private Integer id;
 
-    private Event event;
+    private EventPayload event;
 
-    private Member member;
+    private MemberPayload member;
 }
