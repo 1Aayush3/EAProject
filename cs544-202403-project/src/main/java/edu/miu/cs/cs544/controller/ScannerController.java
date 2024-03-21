@@ -29,21 +29,6 @@ public class ScannerController extends BaseReadWriteController<ScannerPayload, S
     @Autowired
     AttendanceService attendanceService;
 
-    @Autowired
-    ScannerRepository scannerRepository;
-
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    AttendanceRepository attendanceRepository;
-
-    @Autowired
-    RegistrationRepository registrationRepository;
-
-    @Autowired
-    SessionRepository sessionRepository;
-
     @GetMapping("/{scannerCode}/records")
     public ResponseEntity<?> getScannerRecords(@PathVariable Integer scannerCode) {
         List<Attendance> attendanceList = attendanceService.getAllRecordsOfScanner(scannerCode);
