@@ -115,8 +115,11 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
             return 0; //
         }
 
-        return Math.toIntExact(event.getSessionList().stream()
-                .flatMap(session -> session.getAttendanceList().stream())
+        return Math.toIntExact(event.getSessionList()
+                .stream()
+                .flatMap(session ->
+                        session.getAttendanceList()
+                                .stream())
                 .count());
     }
 
