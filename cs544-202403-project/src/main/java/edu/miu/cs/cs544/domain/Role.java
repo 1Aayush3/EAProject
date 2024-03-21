@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class Role implements Serializable {
     private RoleType roleType;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<Member> members = new HashSet<>();
 
     public Integer getRoleId() {

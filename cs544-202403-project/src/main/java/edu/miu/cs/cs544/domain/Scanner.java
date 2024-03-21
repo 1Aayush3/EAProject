@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
@@ -12,6 +14,7 @@ import java.io.Serializable;
 @Entity
 public class Scanner implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,33 +30,33 @@ public class Scanner implements Serializable {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
-    public Integer getScannerCode() {
-        return scannerCode;
-    }
+//    public Integer getScannerCode() {
+//        return scannerCode;
+//    }
+//
+//    public void setScannerCode(Integer scannerCode) {
+//        this.scannerCode = scannerCode;
+//    }
+//
+//    public Location getLocation() {
+//        return location;
+//    }
+//
+//    public void setLocation(Location location) {
+//        this.location = location;
+//    }
+//
+//    public Event getEvent() {
+//        return event;
+//    }
+//
+//    public void setEvent(Event event) {
+//        this.event = event;
+//    }
 
-    public void setScannerCode(Integer scannerCode) {
-        this.scannerCode = scannerCode;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public AccountType getAccountType() { return accountType; }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
+//    public AccountType getAccountType() { return accountType; }
+//
+//    public void setAccountType(AccountType accountType) {
+//        this.accountType = accountType;
+//    }
 }
