@@ -24,6 +24,9 @@ public class Scanner implements Serializable {
     @OneToOne
     Event event;
 
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+
     public Integer getScannerCode() {
         return scannerCode;
     }
@@ -46,5 +49,11 @@ public class Scanner implements Serializable {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public AccountType getAccountType() { return accountType; }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 }

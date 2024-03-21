@@ -30,14 +30,14 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
     public List<SessionPayload> getAllSessionsForEvent(Integer eventId) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         return eventOptional.map(event -> event.getSessionList().stream().map(SessionCustomMapper::toSessionPayload)
-                .collect(Collectors.toList()))
+                        .collect(Collectors.toList()))
                 .orElseGet(ArrayList::new);
     }
 
     @Override
-    public SessionPayload getSessionForEvent(Integer eventId,Integer sessionId) {
+    public SessionPayload getSessionForEvent(Integer eventId, Integer sessionId) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
-        if(eventOptional.isPresent()) {
+        if (eventOptional.isPresent()) {
             Optional<Session> sessionOptional = eventOptional.get().getSessionList().stream().filter(session -> session.getId().equals(sessionId))
                     .findFirst();
             if (sessionOptional.isPresent()) {
@@ -50,7 +50,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
     @Override
     public SessionPayload saveSessionForEvent(Integer eventId, SessionPayload sessionPayload) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
-        if(eventOptional.isPresent()){
+        if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
             event.getSessionList().add(SessionCustomMapper.toSession(sessionPayload));
             this.eventRepository.save(event);
@@ -62,13 +62,13 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
     @Override
     public SessionPayload updateSession(Integer eventId, SessionPayload sessionPayload) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
-        if(eventOptional.isPresent()){
+        if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
             Optional<Session> sessionOptional = event.getSessionList()
                     .stream()
                     .filter(session -> session.getId().equals(sessionPayload.getId()))
                     .findFirst();
-            if(sessionOptional.isPresent()){
+            if (sessionOptional.isPresent()) {
                 Session session = sessionOptional.get();
                 session.setStartTime(sessionPayload.getStartTime());
                 session.setEndTime(sessionPayload.getEndTime());
@@ -83,7 +83,7 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
     @Override
     public String deleteSessionFromEvent(Integer eventId, Integer sessionId) {
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
-        if(eventOptional.isPresent()) {
+        if (eventOptional.isPresent()) {
             this.eventRepository.deleteSession(sessionId);
             return "Deleted";
         }
@@ -91,26 +91,15 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
     }
 
     @Override
-    public int calculateAttendanceForEvent(Integer eventId) {
+    public Integer calculateAttendanceForEvent(Integer eventId) {
         // Retrieve the event from the service
         Event event = eventRepository.findById(eventId).orElse(null);
 
-        if (event == null) {
-            throw new EventNotFoundException("Event not found with ID: " + eventId);
-        }
 
-        return (int) event.getSessionList().stream()
+        return Math.toIntExact(event.getSessionList().stream()
                 .flatMap(session -> session.getAttendanceList().stream())
                 .distinct() // Ensure distinct attendances
-                .count();
+                .count());
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public class EventNotFoundException extends RuntimeException {
-        public EventNotFoundException(String message) {
-            super(message);
-        }
-    }
-
-    }
-
+}
