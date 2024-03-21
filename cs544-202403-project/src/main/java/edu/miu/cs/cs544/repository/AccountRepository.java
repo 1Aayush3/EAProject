@@ -18,17 +18,13 @@ public interface AccountRepository extends BaseRepository<Account, Integer> {
 
     @Query("SELECT a FROM Account a JOIN a.member m JOIN m.attendanceList at WHERE a.accountType = :accountType AND at.date BETWEEN :startDate AND :endDate")
     List<Account> findAccountsByTypeAndDateRange(@Param("accountType") AccountType accountType, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-    /*
-    @Query("SELECT a FROM Attendance a WHERE a.accountId = :accountId AND a.eventDate BETWEEN :startDate AND :endDate")
-    List<Attendance> findAttendanceByAccountIdAndDateRange(@Param("accountId") String accountId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
-     */
 
     Optional<List<Account>> findByMember(Member member);
 
     @Query("select a from Account a where a.member.memberId = :memberId")
     Optional<List<Account>> findByMemberId(@Param("memberId") Integer memberId);
 
-    List<Account> findByAccountType(AccountType accountType);
+    //List<Account> findByAccountType(AccountType accountType);
 
     @Query("SELECT a FROM Account a WHERE a.member.memberId = :memberId AND a.accountType = :accountType")
     Account findByMemberIdAndAccountType(@Param("memberId") Integer memberId, @Param("accountType") AccountType accountType);

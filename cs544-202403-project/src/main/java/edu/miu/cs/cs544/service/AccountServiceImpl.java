@@ -28,10 +28,10 @@ public class AccountServiceImpl extends BaseReadWriteServiceImpl<AccountPayload,
         return accountRepository.countAccountsByTypeAndDateRange(accountType, startDate, endDate);
     }
 
-    @Override
-    public List<Account> findAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate) {
-        return accountRepository.findAccountsByTypeAndDateRange(accountType, startDate, endDate);
-    }
+//    @Override
+//    public List<Account> findAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate) {
+//        return accountRepository.findAccountsByTypeAndDateRange(accountType, startDate, endDate);
+//    }
 
 
     @Override

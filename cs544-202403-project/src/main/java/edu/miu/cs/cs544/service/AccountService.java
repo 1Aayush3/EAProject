@@ -14,7 +14,7 @@ public interface AccountService extends BaseReadWriteService<AccountPayload, Acc
 
     int countAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate);
 
-    List<Account> findAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate);
+    //List<Account> findAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate);
 
 
     void reduceBalanceOnAttendance(Integer memberId, AccountType accountType);
