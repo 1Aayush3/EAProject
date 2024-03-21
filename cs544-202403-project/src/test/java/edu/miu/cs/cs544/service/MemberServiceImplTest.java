@@ -164,14 +164,21 @@ class MemberServiceImplTest {
         account3.setMember(member);
         account3.setStatus(true);
 
-        // Act
-        when(memberRepository.findByMemberId(memberId).get()).thenReturn(member);
+        List<Account> accounts = new ArrayList<>() {{
+            add(account1);
+            add(account2);
+            add(account3);
+        }};
 
+        when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.of(member));
+        when(accountRepository.findByMemberId(memberId)).thenReturn(Optional.of(accounts));
+
+        // Act
         memberServiceImpl.deleteMember(memberId);
 
         // Assert
-        verify(memberRepository).delete(Mockito.<Member>any());
         verify(accountRepository, times(3)).delete(Mockito.<Account>any());
+        verify(memberRepository).delete(Mockito.<Member>any());
 
     }
 
