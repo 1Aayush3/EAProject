@@ -33,7 +33,7 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
             Integer attendanceCount = eventService.calculateAttendanceForEvent(eventId);
             return ResponseEntity.ok((long) attendanceCount);
         } catch (NullPointerException e) {
-            // Log the exception message to the console
+
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found");
         }

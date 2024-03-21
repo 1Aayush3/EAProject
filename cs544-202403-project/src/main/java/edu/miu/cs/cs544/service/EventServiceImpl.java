@@ -1,7 +1,6 @@
 package edu.miu.cs.cs544.service;
 
 import edu.miu.common.service.BaseReadWriteServiceImpl;
-import edu.miu.cs.cs544.controller.EventController;
 import edu.miu.cs.cs544.domain.Event;
 
 
@@ -9,11 +8,12 @@ import edu.miu.cs.cs544.domain.Session;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.contract.EventPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
+import edu.miu.cs.cs544.service.mapper.EventPayloadToEventMapper;
+import edu.miu.cs.cs544.service.mapper.EventToEventPayloadMapper;
 import edu.miu.cs.cs544.service.mapper.SessionCustomMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +21,26 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Event,Integer> implements EventService {
 
+
+    public EventServiceImpl(EventRepository eventRepository,
+                            EventPayloadToEventMapper eventPayloadToEventMapper, EventToEventPayloadMapper eventToEventPayloadMapper) {
+        this.eventRepository = eventRepository;
+        this.eventPayloadToEventMapper = eventPayloadToEventMapper;
+        this.eventToEventPayloadMapper = eventToEventPayloadMapper;
+    }
+    @Autowired
     private final EventRepository eventRepository;
+    @Autowired
+    private final EventPayloadToEventMapper eventPayloadToEventMapper;
+    @Autowired
+    private final EventToEventPayloadMapper eventToEventPayloadMapper;
+
+
+
+
 
     @Override
     public List<SessionPayload> getAllSessionsForEvent(Integer eventId) {
@@ -92,14 +108,17 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
 
     @Override
     public Integer calculateAttendanceForEvent(Integer eventId) {
-        // Retrieve the event from the service
+
         Event event = eventRepository.findById(eventId).orElse(null);
 
+        if (event == null) {
+            return 0; //
+        }
 
         return Math.toIntExact(event.getSessionList().stream()
                 .flatMap(session -> session.getAttendanceList().stream())
-                .distinct() // Ensure distinct attendances
                 .count());
     }
+
 
 }
