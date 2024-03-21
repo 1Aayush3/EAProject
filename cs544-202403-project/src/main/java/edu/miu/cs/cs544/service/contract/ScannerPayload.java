@@ -18,9 +18,9 @@ public class ScannerPayload implements Serializable {
 
     private Integer scannerCode;
 
-    private Location location;
+    private LocationPayload location;
 
-    private Event event;
+    private EventPayload event;
 
     private AccountType accountType;
 

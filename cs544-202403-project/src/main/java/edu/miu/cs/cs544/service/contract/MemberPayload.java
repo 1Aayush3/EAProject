@@ -22,6 +22,6 @@ public class MemberPayload implements Serializable {
 	private String email;
 	private Integer barCode;
 	private Set<Role> roles;
-	private List<Attendance> attendanceList;
+//	private List<Attendance> attendanceList;
 
 }

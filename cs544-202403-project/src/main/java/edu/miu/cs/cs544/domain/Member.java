@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -38,13 +39,22 @@ public class Member implements Serializable {
 	@JoinTable(name = "member_roles",
 			joinColumns = @JoinColumn(name = "memberId"),
 			inverseJoinColumns = @JoinColumn(name = "roleId"))
+	@JsonManagedReference
 	private Set<Role> roles = new HashSet<>();
 
-	@JsonManagedReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<Attendance> attendanceList;
 
 	public Integer getMemberId() {
 		return memberId;
+	}
+
+	public Integer getBarcode() {
+		return barCode;
+	}
+
+	public void setBarcode(int barcode) {
+		this.barCode = barcode;
 	}
 }
