@@ -47,4 +47,12 @@ public class Member implements Serializable {
 	public Integer getMemberId() {
 		return memberId;
 	}
+
+	public Integer getBarcode() {
+		return barCode;
+	}
+
+	public void setBarcode(int barcode) {
+		this.barCode = barcode;
+	}
 }
