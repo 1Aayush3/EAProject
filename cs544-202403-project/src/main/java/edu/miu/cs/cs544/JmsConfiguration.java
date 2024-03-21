@@ -21,26 +21,26 @@ public class JmsConfiguration {
      * @param configurer
      * @return Connection Factory
      */
-    @Bean
-    public JmsListenerContainerFactory<?> jmsFactory(ConnectionFactory connectionFactory,
-                                                     DefaultJmsListenerContainerFactoryConfigurer configurer) {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setMessageConverter(jacksonJmsMessageConverter());
-        configurer.configure(factory, connectionFactory);
-        return factory;
-    }
-
-    /**
-     * Serialize message content to json using TextMessage
-     *
-     * @return Message Converter
-     */
-    @Bean
-    public MessageConverter jacksonJmsMessageConverter() {
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-        converter.setTargetType(MessageType.TEXT);
-        converter.setTypeIdPropertyName("_asb_");
-        return converter;
-    }
+//    @Bean
+//    public JmsListenerContainerFactory<?> jmsFactory(ConnectionFactory connectionFactory,
+//                                                     DefaultJmsListenerContainerFactoryConfigurer configurer) {
+//        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+//        factory.setMessageConverter(jacksonJmsMessageConverter());
+//        configurer.configure(factory, connectionFactory);
+//        return factory;
+//    }
+//
+//    /**
+//     * Serialize message content to json using TextMessage
+//     *
+//     * @return Message Converter
+//     */
+//    @Bean
+//    public MessageConverter jacksonJmsMessageConverter() {
+//        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+//        converter.setTargetType(MessageType.TEXT);
+//        converter.setTypeIdPropertyName("_asb_");
+//        return converter;
+//    }
 
 }

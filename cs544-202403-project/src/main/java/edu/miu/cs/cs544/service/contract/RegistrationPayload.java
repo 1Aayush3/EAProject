@@ -16,3 +16,6 @@ public class RegistrationPayload implements Serializable {
 
     private Member member;
 }
+
+
+

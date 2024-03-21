@@ -1,10 +1,10 @@
 package edu.miu.cs.cs544.service.mapper;
 
+import edu.miu.cs.cs544.service.contract.MemberPayload;
 import org.springframework.stereotype.Component;
 
 import edu.miu.common.service.mapper.BaseMapper;
 import edu.miu.cs.cs544.domain.Member;
-import edu.miu.cs.cs544.service.contract.MemberPayload;
 import ma.glasnost.orika.MapperFactory;
 
 @Component

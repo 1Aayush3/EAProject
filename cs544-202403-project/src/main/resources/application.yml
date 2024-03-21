@@ -19,40 +19,45 @@ spring:
   application:
     name: cs544-202403-project
   datasource:
-    url: jdbc:mysql://localhost:3306/trainingdb
+    url: jdbc:mysql://localhost:3306/eaproject2?useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximumPoolSize: 10
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-  activemq:
-    broker-url: tcp://localhost:61616
-    user: admin
-    password: admin
-  mail:
-    host: localhost
-    port: 1025
-    username:
-    password:
-    properties:
-      mail:
-        smtp:
-          auth: false
-          starttls:
-            enable: false
+#  activemq:
+#    broker-url: tcp://localhost:61616
+#    user: admin
+#    password: admin
+#  mail:
+#    host: localhost
+#    port: 1025
+#    username:
+#    password:
+#    properties:
+#      mail:
+#        smtp:
+#          auth: false
+#          starttls:
+#            enable: false
 
 logging:
   level:
     root: INFO
   file:
     name: /CS544/Logging/${spring.application.name}/logs
+
+account:
+  balance:
+    DINING: 100
+    ATTENDANCE: 50
+    GYM: 200
+    VIRTUAL_DOLLAR: 150

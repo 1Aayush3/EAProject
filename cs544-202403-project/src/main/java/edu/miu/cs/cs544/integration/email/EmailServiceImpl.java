@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailServiceImpl implements EmailService {
-    @Autowired
-    JmsTemplate jmsTemplate;
-    public void sendEmail(String to, String subject, String body) {
-        EmailMessage emailMessage = new EmailMessage(to, subject, body);
-        jmsTemplate.convertAndSend("email.queue", emailMessage);
-    }
+//    @Autowired
+//    JmsTemplate jmsTemplate;
+//    public void sendEmail(String to, String subject, String body) {
+//        EmailMessage emailMessage = new EmailMessage(to, subject, body);
+//        jmsTemplate.convertAndSend("email.queue", emailMessage);
+//    }
 }
