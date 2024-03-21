@@ -1,6 +1,5 @@
 package edu.miu.cs.cs544.controller;
 
-import edu.miu.cs.cs544.domain.AttendanceByMemberIdStatistics;
 import edu.miu.cs.cs544.service.MemberService;
 import edu.miu.cs.cs544.service.mapper.MemberPayloadToMemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,14 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
     @Autowired
     private MemberPayloadToMemberMapper memberPayloadToMemberMapper;
 
+    public MemberController() {
+    }
+
+    public MemberController(MemberService memberService, MemberPayloadToMemberMapper memberToMemberPayloadMapper) {
+        this.memberService = memberService;
+        this.memberPayloadToMemberMapper = memberToMemberPayloadMapper;
+    }
+
     @Override
     @PostMapping
     public ResponseEntity<?> create(@RequestBody MemberPayload memberPayload) {
@@ -42,7 +49,7 @@ public class MemberController extends BaseReadWriteController<MemberPayload, Mem
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         memberService.deleteMember(id);
-        return new ResponseEntity<String>("Deletedt Successfully!", HttpStatus.OK);
+        return new ResponseEntity<String>("Deleted Successfully!", HttpStatus.OK);
     }
 
     @GetMapping(path = "/{memberId}/events/{eventId}/attendance")

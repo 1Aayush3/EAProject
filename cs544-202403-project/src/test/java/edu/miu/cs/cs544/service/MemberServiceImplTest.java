@@ -4,8 +4,6 @@ import edu.miu.cs.cs544.domain.*;
 import edu.miu.cs.cs544.repository.AccountRepository;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.repository.MemberRepository;
-import edu.miu.cs.cs544.service.contract.MemberPayload;
-import edu.miu.cs.cs544.service.mapper.MemberToMemberPayloadMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.*;
 
@@ -24,8 +20,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 class MemberServiceImplTest {
-
-    private MockMvc mockMvc;
 
     @Mock
     private MemberRepository memberRepository;
@@ -42,7 +36,6 @@ class MemberServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(memberServiceImpl).build();
         memberServiceImpl = new MemberServiceImpl(memberRepository, accountRepository, eventRepository);
     }
 
