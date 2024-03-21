@@ -28,8 +28,12 @@ public interface AccountRepository extends BaseRepository<Account, Integer> {
     @Query("select a from Account a where a.member.memberId = :memberId")
     Optional<List<Account>> findByMemberId(@Param("memberId") Integer memberId);
 
-    List <Account> findByAccountType(AccountType accountType);
+    List<Account> findByAccountType(AccountType accountType);
 
     @Query("SELECT a FROM Account a WHERE a.member.memberId = :memberId AND a.accountType = :accountType")
     Account findByMemberIdAndAccountType(@Param("memberId") Integer memberId, @Param("accountType") AccountType accountType);
+
+    @Query("SELECT a FROM Account a WHERE a.balance < a.defaultBalance * 0.05")
+    List<Account> findAccountsLessThanFivePercentOfDefault();
+
 }

@@ -1,5 +1,6 @@
 package edu.miu.cs.cs544.domain;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class Account implements Serializable {
     @Column(name = "Description")
     private String description;
 
-    @Column(name = "AccountType", nullable = false)
+    @Column(name = "AccountType", nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
@@ -27,8 +28,21 @@ public class Account implements Serializable {
     private Member member;
 
     @Column(name = "Balance")
-    private Double balance;
+    private int balance;
 
     @Column(name = "Status")
     private Boolean status;
+
+    @Column(name = "DefaultBalance")
+    private Integer defaultBalance;
+
+    public Account() {
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+        this.defaultBalance = accountType.getDefaultBalance();
+    }
+
+
 }
