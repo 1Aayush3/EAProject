@@ -8,7 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import edu.miu.cs.cs544.service.MemberService;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @SpringBootApplication(scanBasePackages = {"edu.miu.common", "edu.miu.cs.cs544"})
 public class Application implements CommandLineRunner {
 
