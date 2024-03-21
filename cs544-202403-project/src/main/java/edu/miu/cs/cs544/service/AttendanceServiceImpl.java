@@ -75,6 +75,7 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
         // Find member by barcode
         Optional<Member> memberOptional = memberRepository.findByBarCode(barCode);
         if (memberOptional.isEmpty()) {
+            System.out.println("no Member");
             return null;
         }
         Member member = memberOptional.get();
@@ -82,23 +83,27 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
         // Find scanner by code
         Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
         if (scannerOptional.isEmpty()) {
+            System.out.println("no Scanner");
             return null;
         }
         Scanner scanner = scannerOptional.get();
 
         Event event = scanner.getEvent();
         if (event == null) {
+            System.out.println("no event");
             return null;
         }
 
         // Check if the member is registered for the event
         if (!registrationRepository.findByMemberAndEvent(member, event).isPresent()) {
+            System.out.println("Not registered");
             return null;
         }
 
         // Get current time and date
         LocalTime currentTime = LocalTime.now();
         LocalDate currentDate = LocalDate.now();
+        System.out.println(currentTime);
 
         // Find session with time between now and end time
         Optional<Session> sessionOptional = event.getSessionList().stream()
@@ -108,6 +113,7 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
                 .findFirst();
 
         if (sessionOptional.isEmpty()) {
+            System.out.println("Session not found");
             return null;
         }
         Session session = sessionOptional.get();

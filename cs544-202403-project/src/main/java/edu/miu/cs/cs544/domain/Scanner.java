@@ -18,10 +18,10 @@ public class Scanner implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer scannerCode;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     Location location;
     
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     Event event;
 
     @Enumerated(EnumType.STRING)

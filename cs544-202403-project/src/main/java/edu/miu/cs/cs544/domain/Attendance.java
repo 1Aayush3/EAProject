@@ -2,6 +2,7 @@ package edu.miu.cs.cs544.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -30,7 +31,7 @@ public class Attendance implements Serializable {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sessionId")
     private Session session;
