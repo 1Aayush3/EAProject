@@ -4,6 +4,7 @@ import edu.miu.common.controller.BaseReadWriteController;
 import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.repository.EventRepository;
 import edu.miu.cs.cs544.service.EventService;
+import edu.miu.cs.cs544.service.EventServiceImpl;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,29 +26,17 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
     @Autowired
     private EventService eventService;
 
+
     @GetMapping("/{eventId}/attendance")
-    public ResponseEntity<Long> getEventAttendance(@PathVariable Integer eventId) {
-        Long attendanceCount = calculateAttendanceForEvent(eventId);
-        return ResponseEntity.ok(attendanceCount);
-    }
-
-    private Long calculateAttendanceForEvent(Integer eventId) {
-        // Retrieve the event from the service
-        Event event = eventRepository.findById(eventId).orElse(null);
-
-        if (event == null) {
-            throw new EventNotFoundException("Event not found with ID: " + eventId);
+    public ResponseEntity<?> getEventAttendance(@PathVariable Integer eventId) {
+        try {
+            Integer attendanceCount = eventService.calculateAttendanceForEvent(eventId);
+            return ResponseEntity.ok((long) attendanceCount);
+        } catch (NullPointerException e) {
+            // Log the exception message to the console
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found");
         }
-
-        return event.getSessionList().stream()
-                .flatMap(session -> session.getAttendanceList().stream())
-                .distinct() // Ensure distinct attendances
-                .count();
-    }
-
-    @GetMapping(path = "/{eventId}/sessions")
-    public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "eventId") Integer eventId){
-        return ResponseEntity.ok(this.eventService.getAllSessionsForEvent(eventId));
     }
 
 
@@ -71,10 +60,5 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
         return ResponseEntity.ok(this.eventService.deleteSessionFromEvent(eventId,sessionId));
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public class EventNotFoundException extends RuntimeException {
-        public EventNotFoundException(String message) {
-            super(message);
-        }
-    }
+
 }

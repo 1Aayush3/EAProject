@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -39,6 +40,11 @@ public class Member implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "roleId"))
 	private Set<Role> roles = new HashSet<>();
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "member")
 	private List<Attendance> attendanceList;
+
+	public Integer getMemberId() {
+		return memberId;
+	}
 }

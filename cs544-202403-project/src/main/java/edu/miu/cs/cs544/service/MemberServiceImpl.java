@@ -71,7 +71,7 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
 
     @Transactional
     public void deleteMember(Integer memberId) {
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findByMemberId(memberId).get();
         List<Account> accounts = accountRepository.findByMemberId(memberId).orElse(new ArrayList<>());
         for (Account account : accounts) {
             accountRepository.delete(account);
@@ -92,6 +92,15 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
                 }
             }
             return result;
+        }
+        return result;
+    }
+
+    public HashMap<String, Integer> getMemberAttendanceOverAccounts(Integer memberId) {
+        HashMap<String, Integer> result = new HashMap<>();
+        List<AttendanceByMemberIdStatistics> dataFromRepo = memberRepository.calculateAttendanceByMemberId(memberId);
+        for (AttendanceByMemberIdStatistics data : dataFromRepo) {
+            result.put(data.getAccountType(), data.getNo());
         }
         return result;
     }
