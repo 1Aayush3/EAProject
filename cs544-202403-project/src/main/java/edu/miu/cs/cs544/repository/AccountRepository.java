@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountRepository extends BaseRepository<Account, Integer> {
+    // ACccountRepository
     @Query("SELECT COUNT(a) FROM Account a JOIN a.member m JOIN m.attendanceList at WHERE a.accountType = :accountType AND at.date BETWEEN :startDate AND :endDate")
     int countAccountsByTypeAndDateRange(@Param("accountType") AccountType accountType, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
