@@ -3,8 +3,11 @@ package edu.miu.cs.cs544.service;
 import edu.miu.common.service.BaseReadWriteServiceImpl;
 import edu.miu.cs.cs544.domain.Account;
 import edu.miu.cs.cs544.domain.AccountType;
+import edu.miu.cs.cs544.domain.Member;
 import edu.miu.cs.cs544.domain.Session;
+import edu.miu.cs.cs544.exceptions.LowBalanceException;
 import edu.miu.cs.cs544.repository.AccountRepository;
+import edu.miu.cs.cs544.repository.MemberRepository;
 import edu.miu.cs.cs544.service.contract.AccountPayload;
 import edu.miu.cs.cs544.service.contract.SessionPayload;
 import edu.miu.cs.cs544.service.mapper.SessionToSessionPayloadMapper;
@@ -12,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +28,9 @@ public class AccountServiceImpl extends BaseReadWriteServiceImpl<AccountPayload,
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
 
     @Override
@@ -33,4 +42,26 @@ public class AccountServiceImpl extends BaseReadWriteServiceImpl<AccountPayload,
     public List<Account> findAccountsByTypeAndDateRange(AccountType accountType, LocalDate startDate, LocalDate endDate) {
         return accountRepository.findAccountsByTypeAndDateRange(accountType, startDate, endDate);
     }
+
+
+    @Override
+    public void reduceBalanceOnAttendance(Integer memberId, AccountType accountType) {
+        Account account = accountRepository.findByMemberIdAndAccountType(memberId, accountType);
+
+        if (account == null) {
+            throw new IllegalArgumentException("No account found for member with id " + memberId + " and account type " + accountType);
+        }
+
+        if (account.getBalance() > 0) {
+            account.setBalance(account.getBalance() - 1);
+            accountRepository.save(account);
+        } else {
+            throw new LowBalanceException("Cannot reduce balance. Account balance is zero.");
+        }
+    }
+
+
 }
+
+
+
