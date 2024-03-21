@@ -13,9 +13,10 @@ server:
     context-path: /badge-system
 spring:
   security:
-    user:
-      name: user
-      password: 123
+#    user:
+#      name: user
+#      password: 123
+
   application:
     name: cs544-202403-project
   datasource:
