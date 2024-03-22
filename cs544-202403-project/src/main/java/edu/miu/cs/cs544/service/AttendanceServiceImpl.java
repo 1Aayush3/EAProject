@@ -8,6 +8,7 @@ import edu.miu.cs.cs544.repository.*;
 import edu.miu.cs.cs544.service.contract.AttendancePayload;
 import edu.miu.cs.cs544.service.contract.RecordDto;
 import edu.miu.cs.cs544.service.mapper.AttendanceToAttendancePayloadMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePayload, Attendance, Integer> implements AttendanceService{
 
     @Autowired
@@ -37,6 +39,10 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
 
     @Autowired
     SessionRepository sessionRepository;
+
+    public AttendanceServiceImpl(ScannerRepository scannerRepository, AttendanceRepository attendanceRepository, MemberRepository memberRepository, RegistrationRepository registrationRepository, SessionRepository sessionRepository) {
+        super();
+    }
 
     @Override
     public List<Attendance> getAllRecordsOfScanner(Integer scannerCode) {
@@ -95,7 +101,7 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
         }
 
         // Check if the member is registered for the event
-        if (!registrationRepository.findByMemberAndEvent(member, event).isPresent()) {
+        if (registrationRepository.findByMemberAndEvent(member, event).isEmpty()) {
             System.out.println("Not registered");
             return null;
         }
