@@ -53,5 +53,7 @@ public class Member implements Serializable {
 	private List<Attendance> attendanceList;
 
 	public void setBarcode(Integer barCode) {
+      this.barCode = barCode;
 	}
+
 }
