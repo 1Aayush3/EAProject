@@ -41,6 +41,10 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
         }
     }
 
+    @GetMapping(path = "/{eventId}/sessions")
+    public ResponseEntity<?> getAllSessionsForEvent(@PathVariable(value = "eventId") Integer eventId) {
+        return ResponseEntity.ok(this.eventService.getAllSessionsForEvent(eventId));
+    }
 
     @GetMapping(path = "/{eventId}/sessions/{sessionId}")
     public ResponseEntity<?> getSessionForEvent(@PathVariable(value = "eventId") Integer eventId,@PathVariable(value = "sessionId") Integer sessionId){

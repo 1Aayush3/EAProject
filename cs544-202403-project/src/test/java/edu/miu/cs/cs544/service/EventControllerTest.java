@@ -40,7 +40,7 @@ public class EventControllerTest {
 
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        eventController = new EventController(eventService, eventRepository, eventPayloadToEventMapper);
+        //eventController = new EventController(eventService, eventRepository, eventPayloadToEventMapper);
     }
 
 

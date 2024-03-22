@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class EventServiceImplTest {
 
-    @MockBean
+    @Mock
     private EventRepository eventRepository;
 
     @Mock
@@ -41,13 +41,6 @@ class EventServiceImplTest {
 
     @InjectMocks
     private EventServiceImpl eventService;
-
-    @BeforeEach
-
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        eventService = new EventServiceImpl(eventRepository, eventPayloadToEventMapper, eventToEventPayloadMapper);
-    }
 
     @Test
     void testGetAllSessionsForEvent_WithValidEventId() {
@@ -91,7 +84,9 @@ class EventServiceImplTest {
 
         Integer eventId = 1;
         SessionPayload sessionPayload = new SessionPayload();
-        when(eventRepository.findById(eventId)).thenReturn(Optional.of(new Event()));
+        Event event = new Event();
+        event.setSessionList(new ArrayList<>());
+        when(eventRepository.findById(eventId)).thenReturn(Optional.of(event));
 
 
         SessionPayload savedSessionPayload = eventService.saveSessionForEvent(eventId, sessionPayload);
