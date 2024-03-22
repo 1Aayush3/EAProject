@@ -68,12 +68,16 @@ public class EventServiceImpl extends BaseReadWriteServiceImpl<EventPayload,  Ev
         Optional<Event> eventOptional = this.eventRepository.findById(eventId);
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
+            if (event.getSessionList() == null) {
+                event.setSessionList(new ArrayList<>()); // Initialize the session list if null
+            }
             event.getSessionList().add(SessionCustomMapper.toSession(sessionPayload));
             this.eventRepository.save(event);
             return sessionPayload;
         }
         return null;
     }
+
 
     @Override
     public SessionPayload updateSession(Integer eventId, SessionPayload sessionPayload) {

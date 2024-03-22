@@ -1,28 +1,35 @@
 package edu.miu.cs.cs544.service;
 
+import edu.miu.cs.cs544.controller.EventController;
 import edu.miu.cs.cs544.domain.Attendance;
 import edu.miu.cs.cs544.domain.Event;
 import edu.miu.cs.cs544.domain.Session;
 import edu.miu.cs.cs544.repository.EventRepository;
+import edu.miu.cs.cs544.service.contract.SessionPayload;
 import edu.miu.cs.cs544.service.mapper.EventPayloadToEventMapper;
 import edu.miu.cs.cs544.service.mapper.EventToEventPayloadMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@RunWith(SpringRunner.class)
 class EventServiceImplTest {
 
     @Mock
@@ -36,6 +43,14 @@ class EventServiceImplTest {
 
     @InjectMocks
     private EventServiceImpl eventService;
+
+    @BeforeEach
+
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        eventService = new EventServiceImpl(eventRepository, eventPayloadToEventMapper, eventToEventPayloadMapper);
+    }
+
 
     @Test
     void testCalculateAttendanceForEvent() {
@@ -75,4 +90,5 @@ class EventServiceImplTest {
 
         assertEquals(expectedAttendance, actualAttendance);
     }
+
 }

@@ -38,6 +38,10 @@ public class AttendanceServiceImpl extends BaseReadWriteServiceImpl<AttendancePa
     @Autowired
     SessionRepository sessionRepository;
 
+    public AttendanceServiceImpl(ScannerRepository scannerRepository, AttendanceRepository attendanceRepository, MemberRepository memberRepository, RegistrationRepository registrationRepository, SessionRepository sessionRepository) {
+        super();
+    }
+
     @Override
     public List<Attendance> getAllRecordsOfScanner(Integer scannerCode) {
         Optional<Scanner> scannerOptional = scannerRepository.findById(scannerCode);
