@@ -1,12 +1,17 @@
 package edu.miu.cs.cs544.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

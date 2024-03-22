@@ -27,6 +27,8 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
     private EventService eventService;
 
 
+
+
     @GetMapping("/{eventId}/attendance")
     public ResponseEntity<?> getEventAttendance(@PathVariable Integer eventId) {
         try {

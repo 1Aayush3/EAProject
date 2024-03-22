@@ -34,7 +34,7 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
                     Account account = new Account();
                     account.setMember(member);
                     account.setAccountType(accountType);
-                    account.setBalance(1000.00);
+                    account.setBalance((int) 1000.00);
                     account.setStatus(true);
                     accountRepository.save(account);
                 }
@@ -63,7 +63,7 @@ public class MemberServiceImpl extends BaseReadWriteServiceImpl<MemberPayload, M
             Account account = new Account();
             account.setMember(member);
             account.setAccountType(accountType);
-            account.setBalance(1000.00);
+            account.setBalance((int) 1000.00);
             account.setStatus(true);
             accountRepository.save(account);
         }
