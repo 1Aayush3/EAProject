@@ -52,15 +52,8 @@ public class Member implements Serializable {
 	@OneToMany(mappedBy = "member")
 	private List<Attendance> attendanceList;
 
-<<<<<<< HEAD
-//	public void setBarcode(Integer barCode) {
-//	}
-//
-//    public void setBarCode(Integer barCode) {
-//
-//    }
-=======
 	public void setBarcode(Integer barCode) {
+      this.barCode = barCode;
 	}
->>>>>>> e5f9462dd912bbfad16b20bb3395251c569d26a9
+
 }
