@@ -4,11 +4,15 @@ import lombok.Data;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Embeddable
-public class AuditData {
+public class AuditData implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @Column(name = "CreatedBy", insertable = false, updatable = false)
     private String createdBy;

@@ -51,4 +51,7 @@ public class Member implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "member")
 	private List<Attendance> attendanceList;
+
+	public void setBarcode(Integer barCode) {
+	}
 }

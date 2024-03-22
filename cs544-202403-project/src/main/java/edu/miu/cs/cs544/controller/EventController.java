@@ -26,6 +26,18 @@ public class EventController extends BaseReadWriteController<EventPayload, Event
     @Autowired
     private EventService eventService;
 
+    public EventController(EventService eventService,EventRepository eventRepository,EventPayloadToEventMapper eventPayloadToEventMapper) {
+        super();
+        this.eventService = eventService;
+        this.eventRepository = eventRepository;
+        this.eventPayloadToEventMapper = eventPayloadToEventMapper;
+
+    }
+
+    public EventController( ) {
+
+    }
+
 
     @GetMapping("/{eventId}/attendance")
     public ResponseEntity<?> getEventAttendance(@PathVariable Integer eventId) {

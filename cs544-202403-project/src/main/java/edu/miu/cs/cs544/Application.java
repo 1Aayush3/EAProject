@@ -11,7 +11,7 @@ import edu.miu.cs.cs544.service.MemberService;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
-@SpringBootApplication(scanBasePackages = {"edu.miu.common", "edu.miu.cs.cs544"})
+@SpringBootApplication(scanBasePackages = {"edu.miu.common", "edu.miu.cs.cs544", "edu.miu.cs.cs544.service", "edu.miu.cs.cs544.repository"})
 public class Application implements CommandLineRunner {
 
 	@Autowired
